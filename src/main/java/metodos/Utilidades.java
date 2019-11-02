@@ -29,38 +29,21 @@ public class Utilidades {
 
     }
 
-    public static void destapaAdyacentes(int[][] tablero, int[][] visitados, int fila, int columna) {
+    public  void destapaAdyacentes(int[][] tablero, int[][] visitados, int fila, int columna) {
     	
-    	if(tablero[fila][columna] == 0) {
-    		visitados[fila][columna] = 1;
-    		if(columna - 1 >= 0 && visitados[fila][columna-1]==0) {
-    			destapaAdyacentes(tablero, visitados, fila, columna-1);
-    			if(fila - 1 != 0 && visitados[fila-1][columna-1]==0 && tablero[fila-1][columna-1] != 0) {
-    				visitados[fila-1][columna-1] = 1;
-    			}
-    			if(fila + 1 != tablero.length && visitados[fila+1][columna-1] == 0 && tablero[fila+1][columna-1] != 0) {
-    				visitados[fila-1][columna-1] = 1;
-    			}
-    		}
-    		if(columna + 1 < tablero[fila].length && visitados[fila][columna+1] == 0) {
-    			destapaAdyacentes(tablero, visitados, fila, columna+1);
-    			if(fila - 1 != 0 && visitados[fila-1][columna+1]==0 && tablero[fila-1][columna+1] != 0) {
-    				visitados[fila-1][columna+1] = 1;
-    			}
-    			if(fila + 1 != tablero.length && visitados[fila+1][columna+1] == 0 && tablero[fila+1][columna+1] != 0) {
-    				visitados[fila+1][columna+1] = 1;
-    			}    			
-    		}
-    		if(fila - 1 >= 0 && visitados[fila-1][columna]==0) {
-    			destapaAdyacentes(tablero, visitados, fila-1, columna);
-    		}
-    		if(fila+ 1 < tablero.length && visitados[fila+1][columna]==0) {
-    			destapaAdyacentes(tablero, visitados, fila+1, columna);
-    		}   			
-    	} else {
-    		visitados[fila][columna] = 1;
 
-    	}
+
+
     }
-    
+
+	/**
+	 * calcula el máximo entre dos número
+	 */
+	public  int max(int num1,int num2){
+		return ((num1>num2)?num1:num2);
+	}
+
+	public int min(int num1,int num2){
+		return ((num1<num2)?num1:num2);
+	}
 }
