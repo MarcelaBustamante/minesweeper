@@ -19,22 +19,34 @@ public class Utilidades {
         return cant;
     }
     
-    public void destapaAdyacentes(int[][] tablero, int[][] visitados, int fila, int columna) {
+    public static void mostrarTablero(int[][] tablero) {
+		for(int[] x : tablero){
+			for(int y : x){
+				System.out.print(y + " ");
+			}
+			System.out.println();
+		}
+
+    }
+
+    public static void destapaAdyacentes(int[][] tablero, int[][] visitados, int fila, int columna) {
     	
     	if(tablero[fila][columna] == 0) {
     		visitados[fila][columna] = 1;
-    		if(columna - 1 >= 0) {
+    		if(columna - 1 >= 0 && visitados[fila][columna-1]==0) {
     			destapaAdyacentes(tablero, visitados, fila, columna-1);
     		}
-    		if(columna + 1 < tablero[fila].length) {
+    		if(columna + 1 < tablero[fila].length && visitados[fila][columna+1]==0) {
     			destapaAdyacentes(tablero, visitados, fila, columna+1);
     		}
-    		if(fila - 1 >= 0) {
+    		if(fila - 1 >= 0 && visitados[fila-1][columna]==0) {
     			destapaAdyacentes(tablero, visitados, fila-1, columna);
     		}
-    		if(fila+ 1 < tablero.length) {
+    		if(fila+ 1 < tablero.length && visitados[fila+1][columna]==0) {
     			destapaAdyacentes(tablero, visitados, fila+1, columna);
     		}
+    	} else {
+    		visitados[fila][columna] = 1;
     	}
     }
     
