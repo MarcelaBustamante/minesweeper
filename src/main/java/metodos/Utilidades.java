@@ -18,4 +18,24 @@ public class Utilidades {
         }
         return cant;
     }
+    
+    public void destapaAdyacentes(int[][] tablero, int[][] visitados, int fila, int columna) {
+    	
+    	if(tablero[fila][columna] == 0) {
+    		visitados[fila][columna] = 1;
+    		if(columna - 1 >= 0) {
+    			destapaAdyacentes(tablero, visitados, fila, columna-1);
+    		}
+    		if(columna + 1 < tablero[fila].length) {
+    			destapaAdyacentes(tablero, visitados, fila, columna+1);
+    		}
+    		if(fila - 1 >= 0) {
+    			destapaAdyacentes(tablero, visitados, fila-1, columna);
+    		}
+    		if(fila+ 1 < tablero.length) {
+    			destapaAdyacentes(tablero, visitados, fila+1, columna);
+    		}
+    	}
+    }
+    
 }
