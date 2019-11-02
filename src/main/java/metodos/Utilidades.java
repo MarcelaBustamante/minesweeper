@@ -35,18 +35,31 @@ public class Utilidades {
     		visitados[fila][columna] = 1;
     		if(columna - 1 >= 0 && visitados[fila][columna-1]==0) {
     			destapaAdyacentes(tablero, visitados, fila, columna-1);
+    			if(fila - 1 != 0 && visitados[fila-1][columna-1]==0 && tablero[fila-1][columna-1] != 0) {
+    				visitados[fila-1][columna-1] = 1;
+    			}
+    			if(fila + 1 != tablero.length && visitados[fila+1][columna-1] == 0 && tablero[fila+1][columna-1] != 0) {
+    				visitados[fila-1][columna-1] = 1;
+    			}
     		}
-    		if(columna + 1 < tablero[fila].length && visitados[fila][columna+1]==0) {
+    		if(columna + 1 < tablero[fila].length && visitados[fila][columna+1] == 0) {
     			destapaAdyacentes(tablero, visitados, fila, columna+1);
+    			if(fila - 1 != 0 && visitados[fila-1][columna+1]==0 && tablero[fila-1][columna+1] != 0) {
+    				visitados[fila-1][columna+1] = 1;
+    			}
+    			if(fila + 1 != tablero.length && visitados[fila+1][columna+1] == 0 && tablero[fila+1][columna+1] != 0) {
+    				visitados[fila+1][columna+1] = 1;
+    			}    			
     		}
     		if(fila - 1 >= 0 && visitados[fila-1][columna]==0) {
     			destapaAdyacentes(tablero, visitados, fila-1, columna);
     		}
     		if(fila+ 1 < tablero.length && visitados[fila+1][columna]==0) {
     			destapaAdyacentes(tablero, visitados, fila+1, columna);
-    		}
+    		}   			
     	} else {
     		visitados[fila][columna] = 1;
+
     	}
     }
     
