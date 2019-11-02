@@ -1,5 +1,10 @@
 package metodos;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import Buscaminas.Punto;
+
 public class Utilidades {
     /**
      * Esta función recibe la matriz de visitados (las casillas tienen valor 1) y no visitados(las casillas tienen valor
@@ -18,6 +23,102 @@ public class Utilidades {
         }
         return cant;
     }
+    
+	public static void buscamina(int[][] tablero,int[][] visitados,int etapa, int cantMinas, int fila, int columna, List<Punto> solucion){
+		
+		List<Punto> resultado = new ArrayList<Punto>();
+		
+		int n = tablero.length;
+		int m = tablero[n-1].length;
+		
+		int fin = n*m;
+		Punto pto = new Punto();
+		
+		while(etapa <= fin) {
+			int contenidoCasilla = tablero[fila][columna];
+			if (contenidoCasilla != -1) {
+				if (cantNoVisitados(visitados) == cantMinas) {
+					if(resultado.lastIndexOf(null) < solucion.lastIndexOf(null)) {
+						solucion = copySolucion(resultado);
+					}
+					etapa++;
+				} else {
+					if(visitados[fila][columna] == 0) {
+						destapa(tablero,visitados,fila,columna);
+						pto.setFila(fila);
+						pto.setColumna(columna);
+						resultado.add(pto);
+					}
+					if(columna < m) {
+						columna++;
+					} else {
+						if(fila < n) {
+							fila++;
+							columna = 0;
+						} else {
+							fila = 0;
+							columna = 0;
+						}
+					}
+					buscamina(tablero,visitados,etapa,cantMinas,fila,columna,solucion);
+				}
+			}
+			etapa++;
+			resultado = new ArrayList<Punto>();
+			visitados[fila][columna] = 0;
+			fila = pto.getFila();
+			columna = pto.getColumna();
+			if(visitados[fila][columna] != 0) {
+				if(columna < m) {
+					columna++;
+				} else {
+					if(fila < n) {
+						fila++;
+						columna = 0;
+					} else {
+						fila = 0;
+						columna = 0;
+					}
+				}				
+			}
+			if(tablero[fila][columna] == -1) {
+				if(columna < m) {
+					columna++;
+				} else {
+					if(fila < n) {
+						fila++;
+						columna = 0;
+					} else {
+						fila = 0;
+						columna = 0;
+					}
+				}				
+			}
+			pto = new Punto();
+		}
+	}
+	
+	public static void muestraResultado(List<Punto> pto) {
+		int i=0;
+		while(pto !=null) {
+			System.out.println(pto.get(i).toString());
+			i++;
+		}	
+	}
+	
+	
+	@SuppressWarnings("null")
+	public static List<Punto> copySolucion(List<Punto> o){
+		List<Punto> resultado = null;
+		int i=0;
+		while(!o.isEmpty()) {
+			resultado.add(o.get(i));
+			i++;
+		}
+		return resultado;
+	}
+
+    
     
     public static void mostrarTablero(int[][] tablero) {
 		for(int[] x : tablero){
