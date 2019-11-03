@@ -40,7 +40,7 @@ public class UtilidadesTest  {
     @DisplayName("Prueba metodo adyacentes Caso 1: no es una  cero")
     void buscarAdyacentesNoCero(){
         fila=columna=0;
-        util.destapaAdyacentes(this.m,this.v,fila,columna);
+        util.destapaAdyacentes(this.m,this.v,fila,columna,4,4);
         assertEquals(1,visitado[fila][columna]);
     }
 
@@ -48,7 +48,7 @@ public class UtilidadesTest  {
     @DisplayName("Prueba metodo adyacentes Caso 1: no es  cero")
     void buscarAdyacentesCero(){
         fila=columna=3;
-        util.destapaAdyacentes(this.m,this.v,fila,columna);
+        util.destapaAdyacentes(this.m,this.v,fila,columna,4,4);
         assertEquals(2,util.cantNoVisitados(this.v));
     }
 
