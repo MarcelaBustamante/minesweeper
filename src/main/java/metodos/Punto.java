@@ -4,6 +4,14 @@ public class Punto {
     int fila;
     int columna;
 
+    public Punto (){
+
+    }
+    public Punto(int fila, int columna) {
+        this.fila = fila;
+        this.columna = columna;
+    }
+
     public int getFila() {
         return fila;
     }

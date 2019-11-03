@@ -1,8 +1,12 @@
+import metodos.Punto;
 import metodos.Utilidades;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,13 +23,19 @@ public class UtilidadesTest  {
     int columna;
     int fila;
     private final Utilidades util= new Utilidades();
+    List<Punto> solucion;
 
     @BeforeEach
     void init(){
+
+        solucion=new ArrayList<Punto>();
          this.visitado = new int[][] { {1,0,1,1}, {1,1,1,0}, {0,0,0,1} };
          this.m=new int[][]{
                  {1,-1,1,0},{1,1,1,0},{0,0,0,0},{0,0,0,0}};
          this.v=new int[][]{{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
+         solucion.add(new Punto(0,0));
+         solucion.add(new Punto(1,3));
+
          }
 
 
@@ -63,5 +73,19 @@ public class UtilidadesTest  {
     void maxTest(){
         assertEquals(5,util.max(5,2));
     }
+
+    @Test
+    @DisplayName("Prueba setVisitados")
+    void setVisitadosTest(){
+        util.setVisitados(this.visitado);
+        assertTrue(visitado[0][0]==0);
+    }
+
+    @Test
+    @DisplayName("Prueba eliminar")
+        void eliminarTest(){
+            util.eliminar(solucion,visitado);
+            assertTrue(visitado[0][0]==0);
+        }
 
 }

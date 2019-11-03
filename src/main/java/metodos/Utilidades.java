@@ -6,6 +6,8 @@ import java.util.List;
 
 
 public class Utilidades {
+	private int i=0;
+	private int j=0;
     /**
      * Esta función recibe la matriz de visitados (las casillas tienen valor 1) y no visitados(las casillas tienen valor
      * 0) y devuelve la cantidad de los no visitados
@@ -24,13 +26,8 @@ public class Utilidades {
         return cant;
     }
     
-	public  void buscamina(int[][] tablero,int[][] visitados,int etapa, int cantMinas, int fila, int columna, List<Punto> solucion){
-		
-		List<Punto> resultado = new ArrayList<Punto>();
-		
-		int n = tablero.length;
-		int m = tablero[n-1].length;
-		
+	public  void buscamina(int[][] tablero,int[][] visitados,int etapa, int cantMinas, int fila, int columna, List<Punto> solucion,List<Punto> resultado,int m ,int n){
+
 		int fin = n*m;
 		Punto pto = new Punto();
 		
@@ -59,11 +56,11 @@ public class Utilidades {
 							columna = 0;
 						}
 					}
-					buscamina(tablero,visitados,etapa,cantMinas,fila,columna,solucion);
+					buscamina(tablero,visitados,etapa,cantMinas,fila,columna,solucion,resultado,m,n);
 				}
 			}
 			etapa++;
-			resultado = new ArrayList<Punto>();
+			//resultado = new ArrayList<Punto>();
 			visitados[fila][columna] = 0;
 			fila = pto.getFila();
 			columna = pto.getColumna();
@@ -94,6 +91,9 @@ public class Utilidades {
 				}				
 			}
 			pto = new Punto();
+			eliminar(resultado,visitados);
+			columna=this.getJ();
+			fila=this.getI();
 		}
 	}
 	
@@ -104,8 +104,43 @@ public class Utilidades {
 			i++;
 		}	
 	}
-	
-	
+
+	/**
+	 * devuelve resultado =null visitados lo pasa
+	 * tode a 0 y setea fila y columna en la siguiente posición
+	 * para comenzar una nueva etápa desde el comienzo del arbol
+	 * es el que da el crecimiento horizontal
+	 * @param resultado, col,fil,visitados
+	 * @return void
+	 */
+	 public void eliminar(List<Punto> resultado,int[][] visitados){
+		resultado=null;
+
+		//manejo el seteo de los pares que voy proponiendo para empezar
+		if(this.getJ() < visitados[0].length) {
+			this.setJ(this.getJ() + 1);
+		} else {
+			if(this.getI() < visitados.length) {
+				this.setI(this.getI() + 1);
+				this.setJ(0);
+			} else {
+				this.setI(0);
+				this.setJ(0);
+			}
+		}
+		//seteo la matríz
+		this.setVisitados(visitados);
+	}
+
+	//seteo la matríz visitada en cero para que queden nuevamente sin visitar
+	public void setVisitados(int[][] vist){
+		for(int i = 0; i < vist.length; i++){
+			for(int j = 0; j < vist[i].length; j++){
+				vist[i][j]=0;
+			}
+		}
+	}
+
 	@SuppressWarnings("null")
 	public static List<Punto> copySolucion(List<Punto> o){
 		List<Punto> resultado = null;
@@ -156,5 +191,21 @@ public class Utilidades {
 
 	public int min(int num1,int num2){
 		return ((num1<num2)?num1:num2);
+	}
+
+	public int getI() {
+		return i;
+	}
+
+	public void setI(int i) {
+		this.i = i;
+	}
+
+	public int getJ() {
+		return j;
+	}
+
+	public void setJ(int j) {
+		this.j = j;
 	}
 }
