@@ -45,10 +45,10 @@ public class Utilidades {
 						pto.setColumna(columna);
 						resultado.add(pto);
 					}
-					if(columna < m) {
+					if(columna < m-1) {
 						columna++;
 					} else {
-						if(fila < n) {
+						if(fila < n-1) {
 							fila++;
 							columna = 0;
 						} else {
@@ -65,10 +65,10 @@ public class Utilidades {
 			fila = pto.getFila();
 			columna = pto.getColumna();
 			if(visitados[fila][columna] != 0) {
-				if(columna < m) {
+				if(columna < m-1) {
 					columna++;
 				} else {
-					if(fila < n) {
+					if(fila < n-1) {
 						fila++;
 						columna = 0;
 					} else {
@@ -78,10 +78,10 @@ public class Utilidades {
 				}				
 			}
 			if(tablero[fila][columna] == -1) {
-				if(columna < m) {
+				if(columna < m-1) {
 					columna++;
 				} else {
-					if(fila < n) {
+					if(fila < n-1) {
 						fila++;
 						columna = 0;
 					} else {
@@ -117,10 +117,10 @@ public class Utilidades {
 		resultado=null;
 
 		//manejo el seteo de los pares que voy proponiendo para empezar
-		if(this.getJ() < visitados[0].length) {
+		if(this.getJ() < visitados[0].length-1) {
 			this.setJ(this.getJ() + 1);
 		} else {
-			if(this.getI() < visitados.length) {
+			if(this.getI() < visitados.length-1) {
 				this.setI(this.getI() + 1);
 				this.setJ(0);
 			} else {

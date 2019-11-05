@@ -12,7 +12,7 @@ public class App {
     public static void main(String[] args) {
         Utilidades u=new Utilidades();
 
-        File file = new File("C:\\Users\\bustamjm\\Desktop\\tpo\\src\\main\\java\\buscaminas.txt");
+        File file = new File("src/main/buscaminas.txt");
         BufferedReader br;
         int columnas=0, filas=0, minas=0;
         int[][] tablero = new int[0][0];
@@ -66,7 +66,7 @@ public class App {
         List<Punto> sol = new ArrayList<Punto>();
         List<Punto> res = new ArrayList<Punto>();
         Punto p = new Punto(0,0);
-        u.buscamina(tablero,visitados,etapa,minas,f,c,sol,res,tablero.length,tablero[0].length);
+        u.buscamina(tablero,visitados,0,minas,f,c,sol,res,tablero.length,tablero[0].length);
         System.out.println("El resultado es");
         muestraResultado(sol);
 
