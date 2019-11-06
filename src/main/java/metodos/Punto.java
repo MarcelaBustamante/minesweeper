@@ -27,4 +27,9 @@ public class Punto {
     public void setColumna(int columna) {
         this.columna = columna;
     }
+
+    @Override
+    public String toString() {
+        return "(" + fila + "," + columna +")";
+    }
 }

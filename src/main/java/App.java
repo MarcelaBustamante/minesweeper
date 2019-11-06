@@ -5,9 +5,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static metodos.Utilidades.mostrarTablero;
-import static metodos.Utilidades.muestraResultado;
-
 public class App {
     public static void main(String[] args) {
         Utilidades u=new Utilidades();
@@ -37,7 +34,7 @@ public class App {
                 else{
                     values = st.split(" ");
                     for(int x = 0; x < columnas; x++){
-                        tablero[linea-1][x] = values[x].equals("X") ? -1 : Integer.parseInt(values[x]);
+                        tablero[linea-1][x] = values[x].equalsIgnoreCase("X") ? -1 : Integer.parseInt(values[x]);
                         visitados[linea-1][x] = 0;
                     }
                 }
@@ -55,7 +52,7 @@ public class App {
         System.out.println("Columnas:" + columnas);
         System.out.println("Minas:" + minas);
 
-        mostrarTablero(tablero);
+        u.mostrarTablero(tablero);
 
         System.out.println();
 
@@ -63,14 +60,11 @@ public class App {
         int etapa = 0;
         int f=0;
         int c=0;
-        List<Punto> sol = new ArrayList<Punto>();
         List<Punto> res = new ArrayList<Punto>();
         Punto p = new Punto(0,0);
-        u.buscamina(tablero,visitados,0,minas,f,c,sol,res,tablero.length,tablero[0].length);
-        System.out.println("El resultado es");
-        muestraResultado(sol);
+        List<Punto> solucion = new ArrayList();
+        List<Punto> sol = u.buscamina(tablero,visitados,etapa,minas,f,c,res,solucion,tablero.length,tablero[0].length);
+        System.out.println("El resultado es: " + sol);
 
-        System.out.println();
-        mostrarTablero(visitados);
     }
 }

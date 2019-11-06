@@ -1,8 +1,6 @@
 package metodos;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.*;
 
 
 public class Utilidades {
@@ -26,24 +24,32 @@ public class Utilidades {
         return cant;
     }
     
-	public  void buscamina(int[][] tablero,int[][] visitados,int etapa, int cantMinas, int fila, int columna, List<Punto> solucion,List<Punto> resultado,int m ,int n){
+	public List<Punto> buscamina(int[][] tablero,int[][] visitados,int etapa, int cantMinas, int fila, int columna, List<Punto> resultado,List<Punto> solucion, int m ,int n){
 
-		int fin = n*m;
+		boolean fin = false;
 		Punto pto = new Punto();
-		
-		while(etapa <= fin) {
+
+
+		while(!fin) {
 			int contenidoCasilla = tablero[fila][columna];
-			if (contenidoCasilla != -1) {
 				if (cantNoVisitados(visitados) == cantMinas) {
-					if(resultado.lastIndexOf(null) < solucion.lastIndexOf(null)) {
-						solucion = copySolucion(resultado);
+					System.out.println("Parcial: " + resultado);
+					if(!resultado.isEmpty() && (resultado.size() < solucion.size() || solucion.isEmpty())) {
+						solucion.clear();
+						solucion.addAll(resultado);
+
 					}
+					eliminar(resultado,visitados);
+					//etapa++;
 				} else {
 					if(visitados[fila][columna] == 0) {
 						destapaAdyacentes(tablero,visitados,fila,columna,m,n);
-						pto.setFila(fila);
-						pto.setColumna(columna);
-						resultado.add(pto);
+						if(tablero[fila][columna]!=-1){
+							pto.setFila(fila);
+							pto.setColumna(columna);
+							resultado.add(pto);
+						}
+
 					}
 					if(columna < m-1) {
 						columna++;
@@ -56,54 +62,16 @@ public class Utilidades {
 							columna = 0;
 						}
 					}
-					buscamina(tablero,visitados,etapa,cantMinas,fila,columna,solucion,resultado,m,n);
+					buscamina(tablero,visitados,etapa,cantMinas,fila,columna,resultado,solucion,m,n);
 				}
-			}
-			etapa++;
-			//resultado = new ArrayList<Punto>();
-			visitados[fila][columna] = 0;
-			fila = pto.getFila();
-			columna = pto.getColumna();
-			if(visitados[fila][columna] != 0) {
-				if(columna < m-1) {
-					columna++;
-				} else {
-					if(fila < n-1) {
-						fila++;
-						columna = 0;
-					} else {
-						fila = 0;
-						columna = 0;
-					}
-				}				
-			}
-			if(tablero[fila][columna] == -1) {
-				if(columna < m-1) {
-					columna++;
-				} else {
-					if(fila < n-1) {
-						fila++;
-						columna = 0;
-					} else {
-						fila = 0;
-						columna = 0;
-					}
-				}				
-			}
-			pto = new Punto();
-			eliminar(resultado,visitados);
+
+			fin = chequearFinal(visitados);
 			columna=this.getJ();
 			fila=this.getI();
 		}
+		return solucion;
 	}
-	
-	public static void muestraResultado(List<Punto> pto) {
-		int i=0;
-		while(pto !=null) {
-			System.out.println(pto.get(i).toString());
-			i++;
-		}	
-	}
+
 
 	/**
 	 * devuelve resultado =null visitados lo pasa
@@ -113,9 +81,13 @@ public class Utilidades {
 	 * @param resultado, col,fil,visitados
 	 * @return void
 	 */
-	 public void eliminar(List<Punto> resultado,int[][] visitados){
-		resultado=null;
+	 public void eliminar(List<Punto> resultado, int[][] visitados){
+		resultado.clear();
+		 //seteo la matríz
+		this.setVisitados(visitados);
+	}
 
+	private boolean chequearFinal(int[][] visitados) {
 		//manejo el seteo de los pares que voy proponiendo para empezar
 		if(this.getJ() < visitados[0].length-1) {
 			this.setJ(this.getJ() + 1);
@@ -123,36 +95,24 @@ public class Utilidades {
 			if(this.getI() < visitados.length-1) {
 				this.setI(this.getI() + 1);
 				this.setJ(0);
-			} else {
-				this.setI(0);
-				this.setJ(0);
+			}else{
+				return true;
 			}
 		}
-		//seteo la matríz
-		this.setVisitados(visitados);
+		return false;
 	}
 
 	//seteo la matríz visitada en cero para que queden nuevamente sin visitar
 	public void setVisitados(int[][] vist){
 		for(int i = 0; i < vist.length; i++){
-			for(int j = 0; j < vist[i].length; j++){
-				vist[i][j]=0;
-			}
+//			for(int j = 0; j < vist[i].length; j++){
+//				vist[i][j]=0;
+//			}
+			Arrays.fill(vist[i], 0);
 		}
 	}
 
-	@SuppressWarnings("null")
-	public static List<Punto> copySolucion(List<Punto> o){
-		List<Punto> resultado = null;
-		int i=0;
-		while(!o.isEmpty()) {
-			resultado.add(o.get(i));
-			i++;
-		}
-		return resultado;
-	}
 
-    
     
     public static void mostrarTablero(int[][] tablero) {
 		for(int[] x : tablero){
@@ -169,10 +129,12 @@ public class Utilidades {
 
         //si es una casilla que se puede destapar
         if (visitados[fila][columna] == 0) {
-            visitados[fila][columna] = 1;
+            if(tablero[fila][columna]!= -1){
+            	visitados[fila][columna] = 1;
+			}
             if (tablero[fila][columna] == 0) {
-                for (fila2 = max(0, fila - 1); fila2 < min(m,fila +1) ;fila2++ ) {
-                    for (columna2 = max(0, columna - 1); columna2 < min(n,columna +1) ;columna2++) {
+                for (fila2 = max(0, fila - 1); fila2 <= min(m-1,fila +1) ;fila2++ ) {
+                    for (columna2 = max(0, columna - 1); columna2 <= min(n-1,columna +1) ;columna2++) {
                         if (tablero[fila2][columna2] != (-1)){
                             destapaAdyacentes(tablero,visitados,fila2,columna2,m,n);
                         }
