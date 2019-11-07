@@ -9,7 +9,7 @@ public class App {
     public static void main(String[] args) {
         Utilidades u=new Utilidades();
 
-        File file = new File("src/main/buscaminas.txt");
+        File file = new File("src/main/buscaminas3.txt");
         BufferedReader br;
         int columnas=0, filas=0, minas=0;
         int[][] tablero = new int[0][0];
@@ -57,13 +57,12 @@ public class App {
         System.out.println();
 
         //	mostrarTablero(visitados);
-        int etapa = 0;
         int f=0;
         int c=0;
         List<Punto> res = new ArrayList<Punto>();
         Punto p = new Punto(0,0);
         List<Punto> solucion = new ArrayList();
-        List<Punto> sol = u.buscamina(tablero,visitados,etapa,minas,f,c,res,solucion,tablero.length,tablero[0].length);
+        List<Punto> sol = u.buscamina(tablero,visitados,minas,f,c,res,solucion,tablero.length,tablero[0].length);
         System.out.println("El resultado es: " + sol);
 
     }

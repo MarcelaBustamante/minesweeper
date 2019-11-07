@@ -24,14 +24,14 @@ public class Utilidades {
         return cant;
     }
     
-	public List<Punto> buscamina(int[][] tablero,int[][] visitados,int etapa, int cantMinas, int fila, int columna, List<Punto> resultado,List<Punto> solucion, int m ,int n){
+	public List<Punto> buscamina(int[][] tablero,int[][] visitados, int cantMinas, int fila, int columna, List<Punto> resultado,List<Punto> solucion, int m ,int n){
 
 		boolean fin = false;
 		Punto pto = new Punto();
 
-
+ //este agrega la profundidad del arbol
 		while(!fin) {
-			int contenidoCasilla = tablero[fila][columna];
+
 				if (cantNoVisitados(visitados) == cantMinas) {
 					System.out.println("Parcial: " + resultado);
 					if(!resultado.isEmpty() && (resultado.size() < solucion.size() || solucion.isEmpty())) {
@@ -40,7 +40,6 @@ public class Utilidades {
 
 					}
 					eliminar(resultado,visitados);
-					//etapa++;
 				} else {
 					if(visitados[fila][columna] == 0) {
 						destapaAdyacentes(tablero,visitados,fila,columna,m,n);
@@ -62,7 +61,7 @@ public class Utilidades {
 							columna = 0;
 						}
 					}
-					buscamina(tablero,visitados,etapa,cantMinas,fila,columna,resultado,solucion,m,n);
+					buscamina(tablero,visitados,cantMinas,fila,columna,resultado,solucion,m,n);
 				}
 
 			fin = chequearFinal(visitados);
