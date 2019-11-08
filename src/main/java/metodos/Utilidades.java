@@ -24,14 +24,20 @@ public class Utilidades {
         return cant;
     }
     
-	public List<Punto> buscamina(int[][] tablero,int[][] visitados, int cantMinas, int fila, int columna, List<Punto> resultado,List<Punto> solucion, int m ,int n){
+	public List<Punto> buscamina(int[][] tablero,int[][] visitados,
+			int cantMinas, int fila, int columna,
+			List<Punto> resultado,List<Punto> solucion, int m ,int n){
 
 		boolean fin = false;
 		Punto pto = new Punto();
 
  //este agrega la profundidad del arbol
 		while(!fin) {
-
+			if(resultado.isEmpty() && tablero[fila][columna] == -1) {
+				fin = chequearFinal(visitados);
+				columna=this.getJ();
+				fila=this.getI();
+			} else {
 				if (cantNoVisitados(visitados) == cantMinas) {
 					System.out.println("Parcial: " + resultado);
 					if(!resultado.isEmpty() && (resultado.size() < solucion.size() || solucion.isEmpty())) {
@@ -63,10 +69,11 @@ public class Utilidades {
 					}
 					buscamina(tablero,visitados,cantMinas,fila,columna,resultado,solucion,m,n);
 				}
+				fin = chequearFinal(visitados);
+				columna=this.getJ();
+				fila=this.getI();
+			}
 
-			fin = chequearFinal(visitados);
-			columna=this.getJ();
-			fila=this.getI();
 		}
 		return solucion;
 	}
